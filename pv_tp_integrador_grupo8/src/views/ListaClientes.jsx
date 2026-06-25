@@ -15,6 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { Formularios } from "../components/common/Formularios";
 
 const ListaClientes = () => {
   const [clientes, setClientes] = useState([]);
@@ -60,6 +61,8 @@ const ListaClientes = () => {
       <Typography variant="h4" gutterBottom>
         Lista de Clientes
       </Typography>
+
+      <Formularios />
 
       <TextField
         fullWidth
