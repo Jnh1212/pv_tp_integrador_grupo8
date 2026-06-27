@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // 👈 agregado useNavigate
 import {
   Alert,
   Box,
@@ -22,6 +22,8 @@ const ListaClientes = () => {
   const [busqueda, setBusqueda] = useState("");
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate(); // 👈 inicializado
 
   useEffect(() => {
     const obtenerClientes = async () => {
@@ -63,7 +65,7 @@ const ListaClientes = () => {
       </Typography>
 
       <Formularios />
-
+  
       <TextField
         fullWidth
         label="Buscar por apellido o ciudad"
@@ -127,6 +129,14 @@ const ListaClientes = () => {
           </Table>
         </TableContainer>
       )}
+      <Button
+        variant="outlined"
+        color="secondary"
+        onClick={() => navigate("/login")} // 👈 ahora sí funciona
+        sx={{ marginBottom: 2 }}
+      >
+        Volver al Login
+      </Button>
     </Box>
   );
 };
