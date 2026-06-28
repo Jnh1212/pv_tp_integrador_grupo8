@@ -1,22 +1,30 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 
 export const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
-  // Estado inicial: lee localStorage, si no hay nada → null
+  // Estado inicial directamente desde localStorage
   const [admin, setAdmin] = useState(() => {
     const storedAdmin = localStorage.getItem("admin");
     return storedAdmin ? JSON.parse(storedAdmin) : null;
   });
 
-  const login = (adminData) => {
+  // Persistencia en tiempo real
+  useEffect(() => {
+    if (admin) {
+      localStorage.setItem("admin", JSON.stringify(admin));
+    } else {
+      localStorage.removeItem("admin");
+    }
+  }, [admin]);
+
+  const login = (nombre, sector) => {
+    const adminData = { nombre, sector };
     setAdmin(adminData);
-    localStorage.setItem("admin", JSON.stringify(adminData));
   };
 
   const logout = () => {
     setAdmin(null);
-    localStorage.removeItem("admin");
   };
 
   return (
@@ -25,3 +33,5 @@ export const AdminProvider = ({ children }) => {
     </AdminContext.Provider>
   );
 };
+
+export const useAdmin = () => useContext(AdminContext);

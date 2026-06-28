@@ -14,7 +14,7 @@ const Login = () => {
     login(nombre, sector);
     navigate("/clientes");
   };
-  
+  <Header />
   return (
     <div
       style={{
@@ -24,8 +24,8 @@ const Login = () => {
         height: "100vh",
         background: "linear-gradient(to right, #f0f0f0, #d9e4f5)",
       }}
-    >     
-     <form
+    >
+      <form
         onSubmit={handleSubmit}
         style={{
           display: "flex",
