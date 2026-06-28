@@ -1,33 +1,22 @@
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const AdminContext = createContext();
 
 export const AdminProvider = ({ children }) => {
-  const [admin, setAdmin] = useState(null);
-
-  // Leer sesión guardada en localStorage al iniciar
-  useEffect(() => {
+  // Estado inicial: lee localStorage, si no hay nada → null
+  const [admin, setAdmin] = useState(() => {
     const storedAdmin = localStorage.getItem("admin");
-    if (storedAdmin) {
-      setAdmin(JSON.parse(storedAdmin));
-    }
-  }, []);
+    return storedAdmin ? JSON.parse(storedAdmin) : null;
+  });
 
-  // Guardar sesión en localStorage cada vez que cambie
-  useEffect(() => {
-    if (admin) {
-      localStorage.setItem("admin", JSON.stringify(admin));
-    } else {
-      localStorage.removeItem("admin");
-    }
-  }, [admin]);
-
-  const login = (nombre, sector) => {
-    setAdmin({ nombre, sector });
+  const login = (adminData) => {
+    setAdmin(adminData);
+    localStorage.setItem("admin", JSON.stringify(adminData));
   };
 
   const logout = () => {
     setAdmin(null);
+    localStorage.removeItem("admin");
   };
 
   return (

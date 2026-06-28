@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // 👈 agregado useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import {
   Alert,
+  AppBar,
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -13,9 +15,13 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Toolbar,
   Typography,
 } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home"; 
 import { Formularios } from "../components/common/Formularios";
+import Header from "../components/layout/Header"; 
+import Footer from "../components/layout/Footer";
 
 const ListaClientes = () => {
   const [clientes, setClientes] = useState([]);
@@ -23,7 +29,7 @@ const ListaClientes = () => {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
 
-  const navigate = useNavigate(); // 👈 inicializado
+  const navigate = useNavigate();
 
   useEffect(() => {
     const obtenerClientes = async () => {
@@ -59,84 +65,94 @@ const ListaClientes = () => {
   });
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Lista de Clientes
-      </Typography>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      {/* HEADER reutilizable */}
+      <Header />
 
-      <Formularios />
-  
-      <TextField
-        fullWidth
-        label="Buscar por apellido o ciudad"
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-        sx={{ marginBottom: 3 }}
-      />
+      {/* CONTENIDO PRINCIPAL */}
+      <Box sx={{ flex: 1, padding: 3 }}>
+        <Typography variant="h4" gutterBottom>
+          Lista de Clientes
+        </Typography>
 
-      {cargando && (
-        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
-          <CircularProgress />
-        </Box>
-      )}
+        <Formularios />
 
-      {error && <Alert severity="error">{error}</Alert>}
+        <TextField
+          fullWidth
+          label="Buscar por apellido o ciudad"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          sx={{ marginBottom: 3 }}
+        />
 
-      {!cargando && !error && (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Nombre completo</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Telefono</TableCell>
-                <TableCell>Ciudad</TableCell>
-                <TableCell>Accion</TableCell>
-              </TableRow>
-            </TableHead>
+        {cargando && (
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+            <CircularProgress />
+          </Box>
+        )}
 
-            <TableBody>
-              {clientesFiltrados.map((cliente) => (
-                <TableRow key={cliente.id}>
-                  <TableCell>{cliente.id}</TableCell>
-                  <TableCell>
-                    {cliente.name.firstname} {cliente.name.lastname}
-                  </TableCell>
-                  <TableCell>{cliente.email}</TableCell>
-                  <TableCell>{cliente.phone}</TableCell>
-                  <TableCell>{cliente.address.city}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      component={Link}
-                      to={`/clientes/${cliente.id}`}
-                    >
-                      Ver Ficha Completa
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+        {error && <Alert severity="error">{error}</Alert>}
 
-              {clientesFiltrados.length === 0 && (
+        {!cargando && !error && (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={6} align="center">
-                    No se encontraron clientes.
-                  </TableCell>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Nombre completo</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Telefono</TableCell>
+                  <TableCell>Ciudad</TableCell>
+                  <TableCell>Accion</TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={() => navigate("/login")} // 👈 ahora sí funciona
-        sx={{ marginBottom: 2 }}
+              </TableHead>
+
+              <TableBody>
+                {clientesFiltrados.map((cliente) => (
+                  <TableRow key={cliente.id}>
+                    <TableCell>{cliente.id}</TableCell>
+                    <TableCell>
+                      {cliente.name.firstname} {cliente.name.lastname}
+                    </TableCell>
+                    <TableCell>{cliente.email}</TableCell>
+                    <TableCell>{cliente.phone}</TableCell>
+                    <TableCell>{cliente.address.city}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        component={Link}
+                        to={`/clientes/${cliente.id}`}
+                      >
+                        Ver Ficha Completa
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+
+                {clientesFiltrados.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={6} align="center">
+                      No se encontraron clientes.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
+      </Box>
+
+      {/* FOOTER */}
+      <Box
+        component="footer"
+        sx={{
+          backgroundColor: "#f5f5f5",
+          padding: 2,
+          textAlign: "center",
+        }}
       >
-        Volver al Login
-      </Button>
+        <Footer />
+      </Box>
     </Box>
   );
 };
