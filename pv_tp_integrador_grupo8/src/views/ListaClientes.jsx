@@ -15,7 +15,10 @@ import {
   TextField,
   Typography,
   Dialog,
-  DialogContent
+  DialogContent,
+  Card,
+  CardContent,
+  Grid
 } from "@mui/material";
 import { Formularios } from "../components/common/Formularios";
 import Header from "../components/layout/Header";
@@ -99,46 +102,59 @@ const ListaClientes = () => {
 
         {error && <Alert severity="error">{error}</Alert>}
 
+
         {!cargando && !error && (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Nombre completo</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Telefono</TableCell>
-                  <TableCell>Ciudad</TableCell>
-                  <TableCell>Accion</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {clientesFiltrados.map((cliente) => (
-                  <TableRow key={cliente.id}>
-                    <TableCell>{cliente.id}</TableCell>
-                    <TableCell>
+          <Grid container spacing={3}>
+            {clientesFiltrados.map((cliente) => (
+
+              <Grid item xs={12} sm={6} md={4} key={cliente.id}>
+                <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <CardContent sx={{ flexGrow: 1 }}>
+
+                    <Typography variant="h6" color="primary" gutterBottom>
                       {cliente.name.firstname} {cliente.name.lastname}
-                    </TableCell>
-                    <TableCell>{cliente.email}</TableCell>
-                    <TableCell>{cliente.phone}</TableCell>
-                    <TableCell>{cliente.address.city}</TableCell>
-                    <TableCell>
-                      <Button variant="contained" component={Link} to={`/clientes/${cliente.id}`}>
-                        Ver Ficha Completa
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-                {clientesFiltrados.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={6} align="center">
-                      No se encontraron clientes.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>ID:</strong> {cliente.id}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Email:</strong> {cliente.email}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Teléfono:</strong> {cliente.phone}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 2 }}>
+                      <strong>Ciudad:</strong> {cliente.address.city}
+                    </Typography>
+
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      component={Link}
+                      to={`/clientes/${cliente.id}`}
+                    >
+                      Ver Ficha Completa
+                    </Button>
+
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+
+            {/* Mensaje por si la búsqueda no encuentra a nadie */}
+            {clientesFiltrados.length === 0 && (
+              <Grid item xs={12}>
+                <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+                  No se encontraron clientes.
+                </Typography>
+              </Grid>
+            )}
+          </Grid>
+
         )}
       </Box>
 
