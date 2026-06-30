@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AdminContext } from "../context/AdminContext";
 
 import {
@@ -14,6 +14,7 @@ import {
 
 export default function DetalleCliente() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { admin } = useContext(AdminContext);
 
   const [cliente, setCliente] = useState(null);
@@ -46,12 +47,18 @@ export default function DetalleCliente() {
   //Delete Simulado
   const eliminarCliente = async () => {
     try {
-      await fetch(`https://fakestoreapi.com/users/${id}`, {
+      const res = await fetch(`https://fakestoreapi.com/users/${id}`, {
         method: "DELETE",
       });
+
+      if (!res.ok) {
+        throw new Error("Error al eliminar el cliente");
+      }
+
       alert("Cliente eliminado correctamente");
+      navigate("/clientes");
     } catch (error) {
-      alert("Error al eliminar el cliente");
+      alert("No se pudo eliminar el cliente");
     }
   };
 
@@ -66,11 +73,18 @@ export default function DetalleCliente() {
     return <Alert severity="info">No se encontró el cliente</Alert>;
   }
 
-  const { name, email, phone, address } = cliente;
+  const { name, email, phone, address, username, password } = cliente;
 
   return (
     <Card sx={{ maxWidth: 600, margin: "0 auto", mt: 4 }}>
       <CardContent>
+      <Button
+        variant="outlined"
+        onClick={() => navigate("/clientes")}
+        sx={{ mb: 2 }}
+      >
+        ← Volver a Lista clientes
+      </Button>
         <Typography
           variant="h5"
           sx={{
@@ -88,12 +102,17 @@ export default function DetalleCliente() {
 
         <Divider sx={{ my: 2 }} />
 
-        <Typography variant="h6"
-        sx={{
+        <Typography
+          variant="h6"
+          sx={{
             fontWeight: 600,
             color: "primary.main",
             mb: 1,
-        }}> Dirección: </Typography>
+          }}
+        >
+          {" "}
+          Dirección:{" "}
+        </Typography>
         <Typography> Calle: {address.street}</Typography>
         <Typography> Número: {address.number}</Typography>
         <Typography> Ciudad: {address.city}</Typography>
@@ -101,14 +120,19 @@ export default function DetalleCliente() {
 
         <Divider sx={{ my: 2 }} />
 
-        <Typography variant="h6"
-        sx={{
+        <Typography
+          variant="h6"
+          sx={{
             fontWeight: 600,
             color: "primary.main",
             mb: 1,
-        }}> Credenciales: </Typography>
-        <Typography> Usuario: {cliente.username}</Typography>
-        <Typography> Contraseña: {cliente.password}</Typography>
+          }}
+        >
+          {" "}
+          Credenciales:{" "}
+        </Typography>
+        <Typography> Usuario: {username}</Typography>
+        <Typography> Contraseña: {password}</Typography>
 
         <Divider sx={{ my: 2 }} />
 
@@ -127,4 +151,3 @@ export default function DetalleCliente() {
     </Card>
   );
 }
-
