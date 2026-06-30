@@ -1,7 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AdminContext } from "../context/AdminContext";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PersonIcon from "@mui/icons-material/Person";
 import {
   Card,
   CardContent,
@@ -10,6 +12,7 @@ import {
   Alert,
   Button,
   Divider,
+  Box,
 } from "@mui/material";
 
 export default function DetalleCliente() {
@@ -46,6 +49,10 @@ export default function DetalleCliente() {
 
   //Delete Simulado
   const eliminarCliente = async () => {
+    const confirm = window.confirm(
+      "¿Estás seguro de que deseas eliminar este cliente?",
+    );
+    if (!confirm) return;
     try {
       const res = await fetch(`https://fakestoreapi.com/users/${id}`, {
         method: "DELETE",
@@ -64,7 +71,18 @@ export default function DetalleCliente() {
 
   //ESTADOS
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
   if (error) {
     return <Alert severity="error">{error}</Alert>;
@@ -76,15 +94,26 @@ export default function DetalleCliente() {
   const { name, email, phone, address, username, password } = cliente;
 
   return (
-    <Card sx={{ maxWidth: 600, margin: "0 auto", mt: 4 }}>
+    <Card
+      sx={{
+        maxWidth: 600,
+        margin: "0 auto",
+        mt: 4,
+        p: 2,
+        backgroundColor: "#f5f5f5",
+        borderRadius: 3,
+        boxShadow: 3,
+      }}
+    >
       <CardContent>
-      <Button
-        variant="outlined"
-        onClick={() => navigate("/clientes")}
-        sx={{ mb: 2 }}
-      >
-        ← Volver a Lista clientes
-      </Button>
+        <Button
+          variant="outlined"
+          startIcon={<ArrowBackIcon />}
+          onClick={() => navigate("/clientes")}
+          sx={{ mb: 2 }}
+        >
+          Volver
+        </Button>
         <Typography
           variant="h5"
           sx={{
@@ -95,10 +124,11 @@ export default function DetalleCliente() {
             color: "primary.main",
           }}
         >
+          <PersonIcon sx={{ verticalAlign: "middle", mr: 1 }} />
           {name.firstname} {name.lastname}
         </Typography>
-        <Typography> Email: {email}</Typography>
-        <Typography> Teléfono: {phone}</Typography>
+        <Typography>Email: {email}</Typography>
+        <Typography>Teléfono: {phone}</Typography>
 
         <Divider sx={{ my: 2 }} />
 
@@ -113,10 +143,10 @@ export default function DetalleCliente() {
           {" "}
           Dirección:{" "}
         </Typography>
-        <Typography> Calle: {address.street}</Typography>
-        <Typography> Número: {address.number}</Typography>
-        <Typography> Ciudad: {address.city}</Typography>
-        <Typography> Código Postal: {address.zipcode}</Typography>
+        <Typography>Calle: {address.street}</Typography>
+        <Typography>Número: {address.number}</Typography>
+        <Typography>Ciudad: {address.city}</Typography>
+        <Typography>Código Postal: {address.zipcode}</Typography>
 
         <Divider sx={{ my: 2 }} />
 
@@ -131,20 +161,26 @@ export default function DetalleCliente() {
           {" "}
           Credenciales:{" "}
         </Typography>
-        <Typography> Usuario: {username}</Typography>
-        <Typography> Contraseña: {password}</Typography>
-
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+          <Typography> Usuario: {username}</Typography>
+          <Typography> Contraseña: {password}</Typography>
+        </Box>
         <Divider sx={{ my: 2 }} />
 
         {/* //CONTROL DE PERMISOS */}
         {admin?.sector === "Gerencia" && (
-          <Button variant="contained" color="error" onClick={eliminarCliente}>
-            Eliminar Cliente de la Base de Datos
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<DeleteIcon />}
+            onClick={eliminarCliente}
+          >
+            Eliminar Cliente
           </Button>
         )}
         {admin?.sector === "Soporte" && (
           <Alert severity="info" sx={{ mt: 2 }}>
-            Solo tienes permisos de visualizacion
+            Modo solo lectura
           </Alert>
         )}
       </CardContent>
