@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const Formularios = () => {
+export const Formularios = ({ cerrarModal, agregarCliente }) => {
     const [formData, setFormData] = useState({
         email: '',
         username: '',
@@ -33,8 +33,8 @@ export const Formularios = () => {
                     username: formData.username,
                     password: 'password123',
                     name: {
-                        firstname: 'Nuevo',
-                        lastname: 'Cliente'
+                        firstname: formData.username,
+                        lastname: '(Nuevo)'
                     },
                     address: {
                         city: formData.city,
@@ -50,6 +50,23 @@ export const Formularios = () => {
             if (respuesta.status === 200 || respuesta.status === 201) {
                 const datos = await respuesta.json();
 
+                const clienteParaTabla = {
+                    id: datos.id,
+                    email: formData.email,
+                    phone: formData.phone,
+                    name: {
+                        firstname: formData.username,
+                        lastname: '(Nuevo)'
+                    },
+                    address: {
+                        city: formData.city
+                    }
+                };
+
+                if (agregarCliente) {
+                    agregarCliente(clienteParaTabla);
+                }
+
                 setAlerta({
                     mostrar: true,
                     tipo: 'success',
@@ -57,8 +74,13 @@ export const Formularios = () => {
                 });
 
                 setFormData({ email: '', username: '', phone: '', city: '' });
+
+                setTimeout(() => {
+                    cerrarModal();
+                }, 2000);
+
             } else {
-                throw new Error('Error');
+                throw new Error('Error en el servidor');
             }
 
         } catch (error) {
@@ -69,7 +91,6 @@ export const Formularios = () => {
             });
         } finally {
             setCargando(false);
-
             setTimeout(() => {
                 setAlerta({ mostrar: false, tipo: '', mensaje: '' });
             }, 4000);
@@ -77,7 +98,8 @@ export const Formularios = () => {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '500px' }}>
+        <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
+            <h2>Alta de Cliente</h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <input
                     type="text"
@@ -86,6 +108,7 @@ export const Formularios = () => {
                     value={formData.username}
                     onChange={handleChange}
                     required
+                    style={{ padding: '8px' }}
                 />
                 <input
                     type="email"
@@ -94,6 +117,7 @@ export const Formularios = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    style={{ padding: '8px' }}
                 />
                 <input
                     type="text"
@@ -102,19 +126,40 @@ export const Formularios = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
+                    style={{ padding: '8px' }}
                 />
-                <input
-                    type="text"
+
+                <select
                     name="city"
-                    placeholder="Ciudad"
                     value={formData.city}
                     onChange={handleChange}
                     required
-                />
+                    style={{ padding: '8px' }}
+                >
+                    <option value="" disabled>Selecciona una ciudad</option>
+                    <option value="San Salvador de Jujuy">San Salvador de Jujuy</option>
+                    <option value="Humahuaca">Humahuaca</option>
+                    <option value="Palpalá">Palpalá</option>
+                    <option value="San Pedro">San Pedro</option>
+                </select>
 
-                <button type="submit" disabled={cargando}>
-                    {cargando ? 'Guardando...' : 'Crear Cliente'}
-                </button>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <button
+                        type="button"
+                        onClick={cerrarModal}
+                        style={{ flex: 1, padding: '10px', cursor: 'pointer' }}
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        disabled={cargando}
+                        style={{ flex: 1, padding: '10px', cursor: cargando ? 'not-allowed' : 'pointer' }}
+                    >
+                        {cargando ? 'Guardando...' : 'Crear Cliente'}
+                    </button>
+                </div>
             </form>
 
             {alerta.mostrar && (
@@ -123,7 +168,8 @@ export const Formularios = () => {
                     padding: '10px',
                     backgroundColor: alerta.tipo === 'success' ? '#d4edda' : '#f8d7da',
                     color: alerta.tipo === 'success' ? '#155724' : '#721c24',
-                    borderRadius: '5px'
+                    borderRadius: '5px',
+                    textAlign: 'center'
                 }}>
                     {alerta.mensaje}
                 </div>
