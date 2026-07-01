@@ -9,6 +9,17 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     city: "",
   });
 
+  const cities = [
+    "Killcole",
+    "Cullman",
+    "San Antonio",
+    "El Paso",
+    "Fresno",
+    "Mesa",
+    "Miami",
+    "Fort Wayne",
+  ];
+
   const [alerta, setAlerta] = useState({
     mostrar: false,
     tipo: "",
@@ -114,14 +125,20 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
           onChange={handleChange}
           required
         />
-        <input
-          type="text"
+        <select
           name="city"
-          placeholder="Ciudad"
           value={formData.city}
           onChange={handleChange}
           required
-        />
+        >
+          <option value="">Selecciona una ciudad</option>
+
+          {cities.map((city) => (
+            <option key={city} value={city}>
+              {city}
+            </option>
+          ))}
+        </select>
 
         <button type="submit" disabled={cargando}>
           {cargando ? "Guardando..." : "Crear Cliente"}
