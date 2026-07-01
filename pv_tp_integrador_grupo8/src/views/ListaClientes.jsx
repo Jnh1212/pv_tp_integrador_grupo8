@@ -128,10 +128,6 @@ const ListaClientes = () => {
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary">
-                      <strong>ID:</strong> {cliente.id}
-                    </Typography>
-
-                    <Typography variant="body2" color="text.secondary">
                       <strong>Email:</strong> {cliente.email}
                     </Typography>
 
