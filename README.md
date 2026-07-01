@@ -19,6 +19,35 @@ Esta es una aplicación web para la gestión de clientes desarrollada con React 
 
 https://fakestoreapi.com/users
 
+## Estructura del proyecto
+
+src/
+├── App.jsx
+├── main.jsx
+│
+├── assets/
+│   ├── hero.png
+│   └── logo.png
+│
+├── components/
+│   ├── PrivateRoute.jsx
+│   ├── common/
+│   │   ├── Filas_de_Tabla.jsx
+│   │   └── Formularios.jsx
+│   └── layout/
+│       ├── Footer.jsx
+│       ├── Header.jsx
+│       └── Nav.jsx
+│
+├── context/
+│   └── AdminContext.jsx
+│
+└── views/
+    ├── Dashboard.jsx
+    ├── DetalleCliente.jsx
+    ├── ListaClientes.jsx
+    └── Login.jsx
+
 ## Integrantes del Grupo
 
 - BENJAMÍN LEONEL CHOQUE VILTE - [GitHub](https://github.com/ben-html)
