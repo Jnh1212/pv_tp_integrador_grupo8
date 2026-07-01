@@ -4,34 +4,40 @@ import {
   Alert,
   Box,
   Button,
-  Card,
-  CardContent,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
+  Dialog,
+  DialogContent,
+  Card,
+  CardContent,
+  Grid
 } from "@mui/material";
-//import HomeIcon from "@mui/icons-material/Home";
 import { Formularios } from "../components/common/Formularios";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 
 const ListaClientes = () => {
   const [clientes, setClientes] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [ciudadSeleccionada, setCiudadSeleccionada] = useState("");
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState("");
-
-  //const navigate = useNavigate();
+  const [abrirModal, setAbrirModal] = useState(false);
 
   useEffect(() => {
     const obtenerClientes = async () => {
       try {
+        setCargando(true);
+        setError("");
         const respuesta = await fetch("https://fakestoreapi.com/users");
         if (!respuesta.ok) throw new Error("Error al obtener clientes");
-
         const datos = await respuesta.json();
         setClientes(datos);
       } catch (error) {
@@ -40,99 +46,121 @@ const ListaClientes = () => {
         setCargando(false);
       }
     };
-
     obtenerClientes();
   }, []);
 
-  const ciudades = [
-    ...new Set(clientes.map((cliente) => cliente.address.city)),
-  ];
+  const agregarClienteLocal = (nuevoCliente) => {
+    setClientes((clientesAnteriores) => [...clientesAnteriores, nuevoCliente]);
+  };
 
   const clientesFiltrados = clientes.filter((cliente) => {
     const texto = busqueda.toLowerCase();
-    const coincideBusqueda =
+    return (
       cliente.name.lastname.toLowerCase().includes(texto) ||
-      cliente.address.city.toLowerCase().includes(texto);
-
-    const coincideCiudad =
-      ciudadSeleccionada === "" || cliente.address.city === ciudadSeleccionada;
-
-    return coincideBusqueda && coincideCiudad;
+      cliente.address.city.toLowerCase().includes(texto) ||
+      cliente.name.firstname.toLowerCase().includes(texto)
+    );
   });
 
+  const handleCerrarModal = () => {
+    setAbrirModal(false);
+  };
+
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Clientes
-      </Typography>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Header />
 
-      <Formularios />
+      <Box sx={{ flex: 1, padding: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
+          <Typography variant="h4" gutterBottom sx={{ margin: 0 }}>
+            Lista de Clientes
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => setAbrirModal(true)}>
+            Nuevo Cliente
+          </Button>
+        </Box>
 
-      <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
-        {/* CONTENIDO PRINCIPAL */}
+        <Dialog open={abrirModal} onClose={handleCerrarModal} maxWidth="sm" fullWidth>
+          <DialogContent>
+            <Formularios cerrarModal={handleCerrarModal} agregarCliente={agregarClienteLocal} />
+          </DialogContent>
+        </Dialog>
+
         <TextField
+          fullWidth
           label="Buscar por apellido o ciudad"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          sx={{ flex: "1 1 260px" }}
+          sx={{ marginBottom: 3 }}
         />
-        <FormControl sx={{ flex: "1 1 220px" }}>
-          <InputLabel>Ciudad</InputLabel>
-          <Select
-            value={ciudadSeleccionada}
-            label="Ciudad"
-            onChange={(e) => setCiudadSeleccionada(e.target.value)}
-          >
-            <MenuItem value="">Todas</MenuItem>
-            {ciudades.map((ciudad) => (
-              <MenuItem key={ciudad} value={ciudad}>
-                {ciudad}
-              </MenuItem>
+
+        {cargando && (
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+            <CircularProgress />
+          </Box>
+        )}
+
+        {error && <Alert severity="error">{error}</Alert>}
+
+
+        {!cargando && !error && (
+          <Grid container spacing={3}>
+            {clientesFiltrados.map((cliente) => (
+
+              <Grid item xs={12} sm={6} md={4} key={cliente.id}>
+                <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <CardContent sx={{ flexGrow: 1 }}>
+
+                    <Typography variant="h6" color="primary" gutterBottom>
+                      {cliente.name.firstname} {cliente.name.lastname}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>ID:</strong> {cliente.id}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Email:</strong> {cliente.email}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      <strong>Teléfono:</strong> {cliente.phone}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 2 }}>
+                      <strong>Ciudad:</strong> {cliente.address.city}
+                    </Typography>
+
+                    <Button
+                      variant="outlined"
+                      fullWidth
+                      component={Link}
+                      to={`/clientes/${cliente.id}`}
+                    >
+                      Ver Ficha Completa
+                    </Button>
+
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </Select>
-        </FormControl>
+
+            {/* Mensaje por si la búsqueda no encuentra a nadie */}
+            {clientesFiltrados.length === 0 && (
+              <Grid item xs={12}>
+                <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+                  No se encontraron clientes.
+                </Typography>
+              </Grid>
+            )}
+          </Grid>
+
+        )}
       </Box>
 
-      {cargando && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <CircularProgress />
-        </Box>
-      )}
-
-      {error && <Alert severity="error">{error}</Alert>}
-
-      {!cargando && !error && (
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: 2,
-          }}
-        >
-          {clientesFiltrados.map((cliente) => (
-            <Card key={cliente.id} className="cliente-card">
-              <CardContent>
-                <Typography variant="h6">
-                  {cliente.name.firstname} {cliente.name.lastname}
-                </Typography>
-                <Typography>ID: {cliente.id}</Typography>
-                <Typography>Email: {cliente.email}</Typography>
-                <Typography>Teléfono: {cliente.phone}</Typography>
-                <Typography>Ciudad: {cliente.address.city}</Typography>
-
-                <Button
-                  variant="contained"
-                  component={Link}
-                  to={`/clientes/${cliente.id}`}
-                  sx={{ mt: 2 }}
-                >
-                  Ver ficha completa
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
-      )}
+      <Box component="footer" sx={{ backgroundColor: "#f5f5f5", padding: 2, textAlign: "center" }}>
+        <Footer />
+      </Box>
     </Box>
   );
 };
