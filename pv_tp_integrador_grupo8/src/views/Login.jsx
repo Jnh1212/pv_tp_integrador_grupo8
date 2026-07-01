@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useContext } from "react";
 import { AdminContext } from "../context/AdminContext";
-import Header from "../components/layout/Header";
 
 const Login = () => {
   const { login } = useContext(AdminContext);
@@ -12,11 +11,11 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     login(nombre, sector);
-    navigate("/clientes");
+    navigate("/dashboard");
   };
-  <Header />
   return (
     <div
+      className="login-page"
       style={{
         display: "flex",
         justifyContent: "center",
@@ -26,6 +25,7 @@ const Login = () => {
       }}
     >
       <form
+        className="login-card"
         onSubmit={handleSubmit}
         style={{
           display: "flex",
@@ -44,14 +44,15 @@ const Login = () => {
             src="src/assets/logo.png"
             alt="Logo de Empresa"
             style={{
-              maxWidth: "150px",   // se ajusta en pantallas pequeñas
-              width: "100%",       // ocupa todo el ancho disponible
-              height: "auto",      // mantiene proporción
-              marginBottom: "20px"
+              maxWidth: "150px", // se ajusta en pantallas pequeñas
+              width: "100%", // ocupa todo el ancho disponible
+              height: "auto", // mantiene proporción
+              marginBottom: "20px",
             }}
           />
         </div>
         <input
+          className="login-input"
           type="text"
           placeholder="Nombre"
           value={nombre}
@@ -68,6 +69,7 @@ const Login = () => {
           <option value="Gerencia">Gerencia</option>
         </select>
         <button
+          className="login-button"
           type="submit"
           style={{
             padding: "12px",

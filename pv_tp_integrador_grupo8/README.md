@@ -2,7 +2,22 @@
 
 ## Descripción
 
-Esta es una aplicación web para la gestión de clientes desarrollada con React y Vite, que consume datos de FakeStoreAPI e implementa autenticación, navegación entre páginas y persistencia de sesión.
+Esta es una aplicación web para la gestión de clientes desarrollada con React y Vite,el sistema permite iniciar sesion como soporte o gerencia, consume datos de FakeStoreAPI e implementa autenticación, navegación entre páginas y persistencia de sesión.
+
+## Tecnologías utilizadas
+
+- React
+- Vite
+- JavaScript
+- React Router DOM
+- Context API
+- LocalStorage
+- Material UI
+- FakeStoreAPI
+
+## API utilizada
+
+https://fakestoreapi.com/users
 
 ## Integrantes del Grupo
 

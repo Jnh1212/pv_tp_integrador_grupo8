@@ -5,10 +5,20 @@ import Login from "./views/Login";
 import Dashboard from "./views/Dashboard";
 import ListaClientes from "./views/ListaClientes";
 import DetalleCliente from "./views/DetalleCliente";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 
 const PrivateRoute = ({ children }) => {
   const { admin } = useContext(AdminContext);
-  return admin ? children : <Navigate to="/login" />;
+  return admin ? (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 function App() {

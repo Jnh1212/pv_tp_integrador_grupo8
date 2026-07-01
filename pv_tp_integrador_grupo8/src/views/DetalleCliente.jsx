@@ -95,6 +95,7 @@ export default function DetalleCliente() {
 
   return (
     <Card
+      className="detalle-card"
       sx={{
         maxWidth: 600,
         margin: "0 auto",
