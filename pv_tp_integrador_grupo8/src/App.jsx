@@ -7,15 +7,26 @@ import ListaClientes from "./views/ListaClientes";
 import DetalleCliente from "./views/DetalleCliente";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import { Box } from "@mui/material";
 
 const PrivateRoute = ({ children }) => {
   const { admin } = useContext(AdminContext);
   return admin ? (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       <Header />
-      {children}
+
+      <Box sx={{ flex: 1 }}>
+        {children}
+      </Box>
+
       <Footer />
-    </>
+    </Box>
   ) : (
     <Navigate to="/login" />
   );
