@@ -5,24 +5,15 @@ import {
   Box,
   Button,
   CircularProgress,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography,
   Dialog,
   DialogContent,
   Card,
   CardContent,
-  Grid
+  Grid,
 } from "@mui/material";
 import { Formularios } from "../components/common/Formularios";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
 
 const ListaClientes = () => {
   const [clientes, setClientes] = useState([]);
@@ -68,21 +59,38 @@ const ListaClientes = () => {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Header />
-
       <Box sx={{ flex: 1, padding: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 3,
+          }}
+        >
           <Typography variant="h4" gutterBottom sx={{ margin: 0 }}>
             Lista de Clientes
           </Typography>
-          <Button variant="contained" color="primary" onClick={() => setAbrirModal(true)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setAbrirModal(true)}
+          >
             Nuevo Cliente
           </Button>
         </Box>
 
-        <Dialog open={abrirModal} onClose={handleCerrarModal} maxWidth="sm" fullWidth>
+        <Dialog
+          open={abrirModal}
+          onClose={handleCerrarModal}
+          maxWidth="sm"
+          fullWidth
+        >
           <DialogContent>
-            <Formularios cerrarModal={handleCerrarModal} agregarCliente={agregarClienteLocal} />
+            <Formularios
+              cerrarModal={handleCerrarModal}
+              agregarCliente={agregarClienteLocal}
+            />
           </DialogContent>
         </Dialog>
 
@@ -102,15 +110,19 @@ const ListaClientes = () => {
 
         {error && <Alert severity="error">{error}</Alert>}
 
-
         {!cargando && !error && (
           <Grid container spacing={3}>
             {clientesFiltrados.map((cliente) => (
-
               <Grid item xs={12} sm={6} md={4} key={cliente.id}>
-                <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Card
+                  elevation={3}
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <CardContent sx={{ flexGrow: 1 }}>
-
                     <Typography variant="h6" color="primary" gutterBottom>
                       {cliente.name.firstname} {cliente.name.lastname}
                     </Typography>
@@ -127,7 +139,11 @@ const ListaClientes = () => {
                       <strong>Teléfono:</strong> {cliente.phone}
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 2 }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ marginBottom: 2 }}
+                    >
                       <strong>Ciudad:</strong> {cliente.address.city}
                     </Typography>
 
@@ -139,7 +155,6 @@ const ListaClientes = () => {
                     >
                       Ver Ficha Completa
                     </Button>
-
                   </CardContent>
                 </Card>
               </Grid>
@@ -154,12 +169,7 @@ const ListaClientes = () => {
               </Grid>
             )}
           </Grid>
-
         )}
-      </Box>
-
-      <Box component="footer" sx={{ backgroundColor: "#f5f5f5", padding: 2, textAlign: "center" }}>
-        <Footer />
       </Box>
     </Box>
   );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Alert } from "@mui/material";
 
 export const Formularios = ({ cerrarModal, agregarCliente }) => {
   const [formData, setFormData] = useState({
@@ -54,14 +55,6 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
       if (respuesta.status === 200 || respuesta.status === 201) {
         const datos = await respuesta.json();
 
-        if (agregarCliente) {
-          agregarCliente(datos);
-        }
-
-        if (cerrarModal) {
-          cerrarModal();
-        }
-
         setAlerta({
           mostrar: true,
           tipo: "success",
@@ -83,7 +76,11 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
 
       setTimeout(() => {
         setAlerta({ mostrar: false, tipo: "", mensaje: "" });
-      }, 4000);
+
+        if (cerrarModal && alerta.tipo !== "error") {
+          cerrarModal();
+        }
+      }, 1500);
     }
   };
 
