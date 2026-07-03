@@ -151,23 +151,26 @@ export default function DetalleCliente() {
 
         <Divider sx={{ my: 2 }} />
 
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 600,
-            color: "primary.main",
-            mb: 1,
-          }}
-        >
-          {" "}
-          Credenciales:{" "}
-        </Typography>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-          <Typography> Usuario: {username}</Typography>
-          <Typography> Contraseña: {password}</Typography>
-        </Box>
-        <Divider sx={{ my: 2 }} />
-
+        {admin?.sector === "Gerencia" && (
+          <>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 600,
+                color: "primary.main",
+                mb: 1,
+              }}
+            >
+              {" "}
+              Credenciales:{" "}
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+              <Typography> Usuario: {username}</Typography>
+              <Typography> Contraseña: {password}</Typography>
+            </Box>
+            <Divider sx={{ my: 2 }} />
+          </>
+        )}
         {/* //CONTROL DE PERMISOS */}
         {admin?.sector === "Gerencia" && (
           <Button
