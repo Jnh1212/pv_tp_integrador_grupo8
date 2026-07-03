@@ -1,10 +1,31 @@
 import { useState } from "react";
-import { Alert } from "@mui/material";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAdd";
+import CloseIcon from "@mui/icons-material/Close";
+import SaveIcon from "@mui/icons-material/Save";
+import {
+  Alert,
+  Box,
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+  Typography,
+} from "@mui/material";
 
 export const Formularios = ({ cerrarModal, agregarCliente }) => {
   const [formData, setFormData] = useState({
     email: "",
     username: "",
+    phone: "",
+    city: "",
+  });
+
+  const [errores, setErrores] = useState({
+    username: "",
+    email: "",
     phone: "",
     city: "",
   });
@@ -32,10 +53,30 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setErrores({
+      ...errores,
+      [e.target.name]: "",
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const nuevosErrores = {};
+
+    if (!formData.username) nuevosErrores.username = "* Ingrese un usuario *";
+    if (!formData.email)
+      nuevosErrores.email = "* Ingrese un correo electrónico *";
+    if (!formData.phone) nuevosErrores.phone = "* Ingrese un teléfono *";
+    if (!formData.city) nuevosErrores.city = "* Seleccione una ciudad *";
+
+    setErrores(nuevosErrores);
+
+    if (Object.keys(nuevosErrores).length > 0) {
+      setCargando(false);
+      return;
+    }
+
     setCargando(true);
 
     try {
@@ -96,68 +137,80 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "500px" }}>
-      <form
+    <Box sx={{ p: 2, maxWidth: 550 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
+        <PersonAddAlt1Icon color="primary" />
+        <Typography variant="h5" fontWeight="bold">
+          Nuevo Cliente
+        </Typography>
+      </Box>
+      <Box
+        component="form"
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+        sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}
       >
-        <input
-          type="text"
+        <TextField
+          label="Nombre de Usuario"
           name="username"
-          placeholder="Nombre de Usuario"
           value={formData.username}
           onChange={handleChange}
-          required
+          fullWidth
+          error={!!errores.username}
+          helperText={errores.username}
         />
-        <input
-          type="email"
+        <TextField
+          label="Correo Electrónico"
           name="email"
-          placeholder="Correo Electrónico"
+          type="email"
           value={formData.email}
           onChange={handleChange}
-          required
+          fullWidth
+          error={!!errores.email}
+          helperText={errores.email}
         />
-        <input
-          type="text"
+        <TextField
+          label="Teléfono"
           name="phone"
-          placeholder="Teléfono"
           value={formData.phone}
           onChange={handleChange}
-          required
+          fullWidth
+          error={!!errores.phone}
+          helperText={errores.phone}
         />
-        <select
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Selecciona una ciudad</option>
+        <FormControl fullWidth error={!!errores.city}>
+          <InputLabel>Ciudad</InputLabel>
 
-          {cities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
+          <Select
+            name="city"
+            value={formData.city}
+            label="Ciudad"
+            onChange={handleChange}
+          >
+            {cities.map((city) => (
+              <MenuItem key={city} value={city}>
+                {city}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>{errores.city}</FormHelperText>
+        </FormControl>
 
-        <button type="submit" disabled={cargando}>
-          {cargando ? "Guardando..." : "Crear Cliente"}
-        </button>
-      </form>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
+          <Button variant="outlined" startIcon={<CloseIcon/>} onClick={cerrarModal}>
+            Cancelar
+          </Button>
+
+          <Button type="submit" variant="contained" size="large" startIcon={<SaveIcon/>} disabled={cargando}>
+            {cargando ? "Guardando..." : "Crear Cliente"}
+          </Button>
+        </Box>
+      </Box>
 
       {alerta.mostrar && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "10px",
-            backgroundColor: alerta.tipo === "success" ? "#d4edda" : "#f8d7da",
-            color: alerta.tipo === "success" ? "#155724" : "#721c24",
-            borderRadius: "5px",
-          }}
-        >
+        <Alert severity={alerta.tipo} sx={{ mt: 2 }}>
           {alerta.mensaje}
-        </div>
+        </Alert>
       )}
-    </div>
+    </Box>
   );
 };
