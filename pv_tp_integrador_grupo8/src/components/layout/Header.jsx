@@ -36,35 +36,30 @@ const Header = () => {
 >
   <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "70px" }}>
     
-    {/* Título / Logo */}
-    <Typography
-      variant="h5"
-      component={Link}
-      to="/dashboard"
-      sx={{
-        color: "#ffffff",
-        textDecoration: "none",
-        fontWeight: "bold",
-        letterSpacing: "0.5px",
-        fontSize: "1.8rem",
-      }}
-    >
-      📊 Panel Clientes
-    </Typography>
-
-    {/* Navegación central */}
     <Box sx={{ display: "flex", gap: 4 }}>
-      <Button
+        {/* Título / Logo */}
+      <Typography
+        variant="h5"
         component={Link}
         to="/dashboard"
-        sx={{ color: "#ffffff", textTransform: "none", fontWeight: "500", fontSize: "1rem" }}
+        sx={{
+          color: "#ffffff",
+          textDecoration: "none",
+          fontWeight: "bold",
+          letterSpacing: "0.5px",
+          fontSize: "1.8rem",
+        }}
       >
-        Dashboard
-      </Button>
+        📊 Panel Clientes
+      </Typography>
+    {/* Navegación central */}
       <Button
         component={Link}
         to="/clientes"
-        sx={{ color: "#ffffff", textTransform: "none", fontWeight: "500", fontSize: "1rem" }}
+        sx={{ color: "#ffffff", 
+          textTransform: "none", 
+          fontWeight: "bold", 
+          fontSize: "1rem" }}
       >
         Clientes
       </Button>
@@ -73,9 +68,7 @@ const Header = () => {
     {/* Usuario y logout */}
     {admin ? (
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Typography sx={{ color: "#ffffff", fontWeight: "500" }}>
-          {admin.nombre}
-        </Typography>
+
         <Typography sx={{ color: "#bbdefb", fontSize: "0.8rem" }}>
           ({admin.sector})
         </Typography>
@@ -92,10 +85,20 @@ const Header = () => {
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}
+          sx={{ minWidth: 220 }}        
         >
-          <MenuItem onClick={handleClose} sx={{ justifyContent: "center" }}>
-             <AccountCircleIcon />
-          </MenuItem>
+          <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", p: 2 }}>
+            <Avatar sx={{ bgcolor: "#4db6ac", width: 50, height: 50, mb: 1 }}>
+              {admin.nombre?.charAt(0).toUpperCase() || "A"}
+            </Avatar>
+            <Typography sx={{ fontWeight: "bold" }}>{admin.nombre}</Typography>
+            <Typography sx={{ fontSize: "0.85rem", color: "text.secondary" }}>
+              {admin.sector}
+            </Typography>
+            <Typography sx={{ fontSize: "0.75rem", color: "text.disabled" }}>
+              {"correo@gmail.com"}
+            </Typography>
+          </Box>
           <MenuItem onClick={handleLogout} sx={{ color: "#d32f2f", justifyContent: "center" }}>
              <LogoutIcon />
           </MenuItem>
