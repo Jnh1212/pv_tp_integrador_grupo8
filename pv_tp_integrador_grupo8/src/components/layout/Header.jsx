@@ -4,10 +4,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate, Link } from "react-router-dom";
 import { useAdmin } from "../../context/AdminContext";
 import { useState } from "react";
+import Brightness7Icon from "@mui/icons-material/Brightness7"; // Sol
+import Brightness2Icon from "@mui/icons-material/Brightness2"; // Luna
+import { useModoAhorro } from "../../context/ModoAhorroContext";
 
 const Header = () => {
   const navigate = useNavigate();
   const { admin, logout } = useAdmin();
+  const { modoAhorro, toggleModoAhorro } = useModoAhorro();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -35,35 +39,21 @@ const Header = () => {
   }}
 >
   <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "70px" }}>
-    
-    <Box sx={{ display: "flex", gap: 4 }}>
-        {/* Título / Logo */}
-      <Typography
-        variant="h5"
-        component={Link}
-        to="/dashboard"
-        sx={{
-          color: "#ffffff",
-          textDecoration: "none",
-          fontWeight: "bold",
-          letterSpacing: "0.5px",
-          fontSize: "1.8rem",
-        }}
-      >
-        📊 Panel Clientes
-      </Typography>
-    {/* Navegación central */}
-      <Button
-        component={Link}
-        to="/clientes"
-        sx={{ color: "#ffffff", 
-          textTransform: "none", 
-          fontWeight: "bold", 
-          fontSize: "1rem" }}
-      >
-        Clientes
-      </Button>
-    </Box>
+    {/* Título / Logo */}
+    <Typography
+      variant="h5"
+      component={Link}
+      to="/dashboard"
+      sx={{
+        color: "#ffffff",
+        textDecoration: "none",
+        fontWeight: "bold",
+        letterSpacing: "0.5px",
+        fontSize: "1.8rem",
+      }}
+    >
+      📊 Panel Clientes
+    </Typography>
 
     {/* Usuario y logout */}
     {admin ? (
@@ -109,6 +99,27 @@ const Header = () => {
         Iniciar Sesión
       </Button>
     )}
+  </Toolbar>
+  <Toolbar sx={{ backgroundColor: "#283593", minHeight: "50px", display: "flex", justifyContent: "space-between" }}>
+  {/* Navegación central */}
+    <Button
+        component={Link}
+        to="/clientes"
+        sx={{ color: "#ffffff", 
+          textTransform: "none", 
+          fontWeight: "bold", 
+          fontSize: "1rem",
+          borderRadius: "4px",
+          "&:hover": {
+            backgroundColor: "#3949ab",
+          }
+         }}
+    >
+        Clientes
+    </Button>
+    <Button onClick={toggleModoAhorro} sx={{ color: "#ffffff" }}>
+      {modoAhorro ? <Brightness2Icon /> : <Brightness7Icon />}
+    </Button>
   </Toolbar>
 </AppBar>
   );

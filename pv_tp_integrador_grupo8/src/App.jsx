@@ -8,6 +8,8 @@ import DetalleCliente from "./views/DetalleCliente";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import { Box } from "@mui/material";
+import { ModoAhorroProvider } from "./context/ModoAhorroContext";
+import AppTema from "./context/AppTema";
 
 const PrivateRoute = ({ children }) => {
   const { admin } = useContext(AdminContext);
@@ -35,36 +37,41 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <AdminProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/clientes"
-            element={
-              <PrivateRoute>
-                <ListaClientes />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/clientes/:id"
-            element={
-              <PrivateRoute>
-                <DetalleCliente />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <ModoAhorroProvider>
+        <AppTema>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/clientes"
+              element={
+                <PrivateRoute>
+                  <ListaClientes />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/clientes/:id"
+              element={
+                <PrivateRoute>
+                  <DetalleCliente />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+        </AppTema>
+      </ModoAhorroProvider>
+      
     </AdminProvider>
   );
 }
