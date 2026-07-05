@@ -13,6 +13,7 @@ import {
   MenuItem,
   FormHelperText,
   Typography,
+  Snackbar
 } from "@mui/material";
 
 export const Formularios = ({ cerrarModal, agregarCliente }) => {
@@ -196,21 +197,24 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         </FormControl>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-          <Button variant="outlined" startIcon={<CloseIcon/>} onClick={cerrarModal}>
+          <Button variant="outlined" startIcon={<CloseIcon />} onClick={cerrarModal}>
             Cancelar
           </Button>
 
-          <Button type="submit" variant="contained" size="large" startIcon={<SaveIcon/>} disabled={cargando}>
+          <Button type="submit" variant="contained" size="large" startIcon={<SaveIcon />} disabled={cargando}>
             {cargando ? "Guardando..." : "Crear Cliente"}
           </Button>
         </Box>
       </Box>
 
-      {alerta.mostrar && (
-        <Alert severity={alerta.tipo} sx={{ mt: 2 }}>
+      <Snackbar
+        open={alerta.mostrar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity={alerta.tipo || "info"} sx={{ width: "100%", boxShadow: 3 }}>
           {alerta.mensaje}
         </Alert>
-      )}
+      </Snackbar>
     </Box>
   );
 };
