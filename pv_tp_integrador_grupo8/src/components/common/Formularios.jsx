@@ -16,6 +16,22 @@ import {
   Snackbar
 } from "@mui/material";
 
+const registrarClienteAPI = async (datosCliente) => {
+  const respuesta = await fetch("https://fakestoreapi.com/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(datosCliente),
+  });
+
+  if (!respuesta.ok) {
+    throw new Error("Error en la petición");
+  }
+
+  return await respuesta.json();
+};
+
 export const Formularios = ({ cerrarModal, agregarCliente }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -66,8 +82,7 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     const nuevosErrores = {};
 
     if (!formData.username) nuevosErrores.username = "* Ingrese un usuario *";
-    if (!formData.email)
-      nuevosErrores.email = "* Ingrese un correo electrónico *";
+    if (!formData.email) nuevosErrores.email = "* Ingrese un correo electrónico *";
     if (!formData.phone) nuevosErrores.phone = "* Ingrese un teléfono *";
     if (!formData.city) nuevosErrores.city = "* Seleccione una ciudad *";
 
@@ -81,43 +96,33 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     setCargando(true);
 
     try {
-      const respuesta = await fetch("https://fakestoreapi.com/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const payload = {
+        email: formData.email,
+        username: formData.username,
+        password: "password123",
+        name: {
+          firstname: "Nuevo",
+          lastname: "Cliente",
         },
-        body: JSON.stringify({
-          email: formData.email,
-          username: formData.username,
-          password: "password123",
-          name: {
-            firstname: "Nuevo",
-            lastname: "Cliente",
-          },
-          address: {
-            city: formData.city,
-            street: "Calle Falsa",
-            number: 1,
-            zipcode: "0000",
-            geolocation: { lat: "0", long: "0" },
-          },
-          phone: formData.phone,
-        }),
+        address: {
+          city: formData.city,
+          street: "Calle Falsa",
+          number: 1,
+          zipcode: "0000",
+          geolocation: { lat: "0", long: "0" },
+        },
+        phone: formData.phone,
+      };
+
+      const datos = await registrarClienteAPI(payload);
+
+      setAlerta({
+        mostrar: true,
+        tipo: "success",
+        mensaje: `¡Cliente creado con éxito! ID asignado: ${datos.id}`,
       });
 
-      if (respuesta.status === 200 || respuesta.status === 201) {
-        const datos = await respuesta.json();
-
-        setAlerta({
-          mostrar: true,
-          tipo: "success",
-          mensaje: `¡Cliente creado con éxito! ID asignado: ${datos.id}`,
-        });
-
-        setFormData({ email: "", username: "", phone: "", city: "" });
-      } else {
-        throw new Error("Error");
-      }
+      setFormData({ email: "", username: "", phone: "", city: "" });
     } catch (error) {
       setAlerta({
         mostrar: true,
