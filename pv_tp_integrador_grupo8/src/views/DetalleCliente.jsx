@@ -31,12 +31,24 @@ export default function DetalleCliente() {
       try {
         setLoading(true);
         setError(null);
+        // BUSCAR DETALLES DE CLIENTES EN LA API
+        // const res = await fetch(`https://fakestoreapi.com/users/${id}`);
+        // if (!res.ok) throw new Error("Error al obtener el detalle del cliente");
+        // const data = await res.json();
+        // setCliente(data);
+        //
+        // BUSCAR DETALLES DE CLIENTES EN LOCAL STORAGE
+        const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
 
-        const res = await fetch(`https://fakestoreapi.com/users/${id}`);
-        if (!res.ok) throw new Error("Error al obtener el detalle del cliente");
+        const clienteEncontrado = clientes.find(
+          (cliente) => cliente.id === Number(id),
+        );
 
-        const data = await res.json();
-        setCliente(data);
+        if (!clienteEncontrado) {
+          throw new Error("Cliente no encontrado");
+        }
+
+        setCliente(clienteEncontrado);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -185,19 +197,19 @@ export default function DetalleCliente() {
           </>
         )}
         {/* //CONTROL DE PERMISOS */}
-        {admin?.sector === "Gerencia" && (
+        {/* {admin?.sector === "Gerencia" && (
           <Button
             variant="contained"
             color="error"
             startIcon={<DeleteIcon />}
             onClick={eliminarCliente}
           >
-            Eliminar Cliente
+            Eliminar Cliente (SIMULADO)
           </Button>
-        )}
+        )} */}
         {admin?.sector === "Soporte" && (
           <Alert severity="info" sx={{ mt: 2 }}>
-            Modo solo lectura
+            Solo lectura
           </Alert>
         )}
       </CardContent>

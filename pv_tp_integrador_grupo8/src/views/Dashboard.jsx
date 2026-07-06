@@ -89,6 +89,16 @@ const Dashboard = () => {
             <Typography color="text.secondary">
               Clientes guardados en el sistema.
             </Typography>
+            {/* BOTON REINICIAR CLIENTES OPCIONAL */}
+            {/* <Button
+              color="error"
+              onClick={() => {
+                localStorage.removeItem("clientes");
+                window.location.reload();
+              }}
+            >
+              Reiniciar Clientes
+            </Button> */}
           </CardContent>
         </Card>
 

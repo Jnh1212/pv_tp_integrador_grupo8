@@ -38,6 +38,9 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     username: "",
     phone: "",
     city: "",
+    street: "",
+    number: "",
+    zipcode: "",
   });
 
   const [errores, setErrores] = useState({
@@ -45,6 +48,9 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     email: "",
     phone: "",
     city: "",
+    street: "",
+    number: "",
+    zipcode: "",
   });
 
   const cities = [
@@ -86,6 +92,10 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
       nuevosErrores.email = "* Ingrese un correo electrónico *";
     if (!formData.phone) nuevosErrores.phone = "* Ingrese un teléfono *";
     if (!formData.city) nuevosErrores.city = "* Seleccione una ciudad *";
+    if (!formData.street) nuevosErrores.street = "* Ingrese una calle *";
+    if (!formData.number) nuevosErrores.number = "* Ingrese un número *";
+    if (!formData.zipcode)
+      nuevosErrores.zipcode = "* Ingrese un código postal *";
 
     setErrores(nuevosErrores);
 
@@ -107,9 +117,9 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         },
         address: {
           city: formData.city,
-          street: "Calle Falsa",
-          number: 1,
-          zipcode: "0000",
+          street: formData.street,
+          number: Number(formData.number),
+          zipcode: formData.zipcode,
           geolocation: { lat: "0", long: "0" },
         },
         phone: formData.phone,
@@ -128,9 +138,9 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         },
         address: {
           city: formData.city,
-          street: "Calle Falsa",
-          number: 1,
-          zipcode: "0000",
+          street: formData.street,
+          number: Number(formData.number),
+          zipcode: formData.zipcode,
           geolocation: { lat: "0", long: "0" },
         },
         phone: formData.phone,
@@ -144,7 +154,7 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         mensaje: `Cliente creado con éxito. ID asignado: ${nuevoCliente.id}`,
       });
 
-      setFormData({ email: "", username: "", phone: "", city: "" });
+      setFormData({ email: "", username: "", phone: "", city: "", street: "", number: "", zipcode: "", });
 
       setTimeout(() => {
         cerrarModal();
@@ -218,6 +228,36 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
           </Select>
           <FormHelperText>{errores.city}</FormHelperText>
         </FormControl>
+        <TextField
+          label="Calle"
+          name="street"
+          value={formData.street}
+          onChange={handleChange}
+          fullWidth
+          error={!!errores.street}
+          helperText={errores.street}
+        />
+
+        <TextField
+          label="Número"
+          name="number"
+          type="number"
+          value={formData.number}
+          onChange={handleChange}
+          fullWidth
+          error={!!errores.number}
+          helperText={errores.number}
+        />
+
+        <TextField
+          label="Código Postal"
+          name="zipcode"
+          value={formData.zipcode}
+          onChange={handleChange}
+          fullWidth
+          error={!!errores.zipcode}
+          helperText={errores.zipcode}
+        />
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
           <Button
