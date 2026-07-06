@@ -13,7 +13,7 @@ import {
   MenuItem,
   FormHelperText,
   Typography,
-  Snackbar
+  Snackbar,
 } from "@mui/material";
 
 const registrarClienteAPI = async (datosCliente) => {
@@ -82,7 +82,8 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     const nuevosErrores = {};
 
     if (!formData.username) nuevosErrores.username = "* Ingrese un usuario *";
-    if (!formData.email) nuevosErrores.email = "* Ingrese un correo electrónico *";
+    if (!formData.email)
+      nuevosErrores.email = "* Ingrese un correo electrónico *";
     if (!formData.phone) nuevosErrores.phone = "* Ingrese un teléfono *";
     if (!formData.city) nuevosErrores.city = "* Seleccione una ciudad *";
 
@@ -116,13 +117,38 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
 
       const datos = await registrarClienteAPI(payload);
 
+      const nuevoCliente = {
+        id: datos.id || Date.now(),
+        email: formData.email,
+        username: formData.username,
+        password: "password123",
+        name: {
+          firstname: formData.username,
+          lastname: "Cliente",
+        },
+        address: {
+          city: formData.city,
+          street: "Calle Falsa",
+          number: 1,
+          zipcode: "0000",
+          geolocation: { lat: "0", long: "0" },
+        },
+        phone: formData.phone,
+      };
+
+      agregarCliente(nuevoCliente);
+
       setAlerta({
         mostrar: true,
         tipo: "success",
-        mensaje: `¡Cliente creado con éxito! ID asignado: ${datos.id}`,
+        mensaje: `Cliente creado con éxito. ID asignado: ${nuevoCliente.id}`,
       });
 
       setFormData({ email: "", username: "", phone: "", city: "" });
+
+      setTimeout(() => {
+        cerrarModal();
+      }, 1200);
     } catch (error) {
       setAlerta({
         mostrar: true,
@@ -131,14 +157,6 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
       });
     } finally {
       setCargando(false);
-
-      setTimeout(() => {
-        setAlerta({ mostrar: false, tipo: "", mensaje: "" });
-
-        if (cerrarModal && alerta.tipo !== "error") {
-          cerrarModal();
-        }
-      }, 1500);
     }
   };
 
@@ -202,11 +220,21 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         </FormControl>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
-          <Button variant="outlined" startIcon={<CloseIcon />} onClick={cerrarModal}>
+          <Button
+            variant="outlined"
+            startIcon={<CloseIcon />}
+            onClick={cerrarModal}
+          >
             Cancelar
           </Button>
 
-          <Button type="submit" variant="contained" size="large" startIcon={<SaveIcon />} disabled={cargando}>
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            startIcon={<SaveIcon />}
+            disabled={cargando}
+          >
             {cargando ? "Guardando..." : "Crear Cliente"}
           </Button>
         </Box>
@@ -214,9 +242,14 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
 
       <Snackbar
         open={alerta.mostrar}
+        autoHideDuration={3000}
+        onClose={() => setAlerta({ mostrar: false, tipo: "", mensaje: "" })}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
-        <Alert severity={alerta.tipo || "info"} sx={{ width: "100%", boxShadow: 3 }}>
+        <Alert
+          severity={alerta.tipo || "info"}
+          sx={{ width: "100%", boxShadow: 3 }}
+        >
           {alerta.mensaje}
         </Alert>
       </Snackbar>

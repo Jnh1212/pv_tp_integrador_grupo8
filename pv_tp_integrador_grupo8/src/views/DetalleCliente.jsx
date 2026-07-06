@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+﻿import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AdminContext } from "../context/AdminContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -101,12 +101,13 @@ export default function DetalleCliente() {
         margin: "0 auto",
         mt: 4,
         p: 2,
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#ffffff",
+        color: "#1f2937",
         borderRadius: 3,
         boxShadow: 3,
       }}
     >
-      <CardContent>
+      <CardContent sx={{ color: "#1f2937" }}>
         <Button
           variant="outlined"
           startIcon={<ArrowBackIcon />}
@@ -128,8 +129,8 @@ export default function DetalleCliente() {
           <PersonIcon sx={{ verticalAlign: "middle", mr: 1 }} />
           {name.firstname} {name.lastname}
         </Typography>
-        <Typography>Email: {email}</Typography>
-        <Typography>Teléfono: {phone}</Typography>
+        <Typography sx={{ color: "#1f2937" }}>Email: {email}</Typography>
+        <Typography sx={{ color: "#1f2937" }}>Teléfono: {phone}</Typography>
 
         <Divider sx={{ my: 2 }} />
 
@@ -144,10 +145,18 @@ export default function DetalleCliente() {
           {" "}
           Dirección:{" "}
         </Typography>
-        <Typography>Calle: {address.street}</Typography>
-        <Typography>Número: {address.number}</Typography>
-        <Typography>Ciudad: {address.city}</Typography>
-        <Typography>Código Postal: {address.zipcode}</Typography>
+        <Typography sx={{ color: "#1f2937" }}>
+          Calle: {address.street}
+        </Typography>
+        <Typography sx={{ color: "#1f2937" }}>
+          Número: {address.number}
+        </Typography>
+        <Typography sx={{ color: "#1f2937" }}>
+          Ciudad: {address.city}
+        </Typography>
+        <Typography sx={{ color: "#1f2937" }}>
+          Código Postal: {address.zipcode}
+        </Typography>
 
         <Divider sx={{ my: 2 }} />
 
@@ -165,8 +174,12 @@ export default function DetalleCliente() {
               Credenciales:{" "}
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-              <Typography> Usuario: {username}</Typography>
-              <Typography> Contraseña: {password}</Typography>
+              <Typography sx={{ color: "#1f2937" }}>
+                Usuario: {username}
+              </Typography>
+              <Typography sx={{ color: "#1f2937" }}>
+                Contraseña: {password}
+              </Typography>
             </Box>
             <Divider sx={{ my: 2 }} />
           </>
@@ -191,4 +204,3 @@ export default function DetalleCliente() {
     </Card>
   );
 }
-
