@@ -34,6 +34,8 @@ const registrarClienteAPI = async (datosCliente) => {
 
 export const Formularios = ({ cerrarModal, agregarCliente }) => {
   const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
     email: "",
     username: "",
     phone: "",
@@ -44,6 +46,8 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
   });
 
   const [errores, setErrores] = useState({
+    firstname: "",
+    lastname: "",
     username: "",
     email: "",
     phone: "",
@@ -86,7 +90,8 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     e.preventDefault();
 
     const nuevosErrores = {};
-
+    if (!formData.firstname) nuevosErrores.firstname = "* Ingrese un nombre *";
+    if (!formData.lastname) nuevosErrores.lastname = "* Ingrese un apellido *";
     if (!formData.username) nuevosErrores.username = "* Ingrese un usuario *";
     if (!formData.email)
       nuevosErrores.email = "* Ingrese un correo electrónico *";
@@ -112,8 +117,8 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         username: formData.username,
         password: "password123",
         name: {
-          firstname: "Nuevo",
-          lastname: "Cliente",
+          firstname: formData.firstname,
+          lastname: formData.lastname,
         },
         address: {
           city: formData.city,
@@ -138,8 +143,8 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         username: formData.username,
         password: "password123",
         name: {
-          firstname: formData.username,
-          lastname: "Cliente",
+          firstname: formData.firstname,
+          lastname: formData.lastname,
         },
         address: {
           city: formData.city,
@@ -160,6 +165,8 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
       });
 
       setFormData({
+        firstname: "",
+        lastname: "",
         email: "",
         username: "",
         phone: "",
@@ -196,7 +203,7 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
 
     cerrarModal();
   };
-  
+
   return (
     <Box sx={{ p: 2, maxWidth: 550 }}>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
@@ -210,6 +217,25 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         onSubmit={handleSubmit}
         sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}
       >
+        <TextField
+          label="Nombre"
+          name="firstname"
+          value={formData.firstname}
+          onChange={handleChange}
+          fullWidth
+          error={!!errores.firstname}
+          helperText={errores.firstname}
+        />
+
+        <TextField
+          label="Apellido"
+          name="lastname"
+          value={formData.lastname}
+          onChange={handleChange}
+          fullWidth
+          error={!!errores.lastname}
+          helperText={errores.lastname}
+        />
         <TextField
           label="Nombre de Usuario"
           name="username"
