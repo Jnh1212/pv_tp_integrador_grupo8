@@ -18,7 +18,7 @@ import {
 export default function DetalleCliente() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { admin } = useContext(AdminContext);
+  const { admin, registrarActividad } = useContext(AdminContext);
 
   const [cliente, setCliente] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -60,25 +60,26 @@ export default function DetalleCliente() {
   }, [id]);
 
   //Delete Simulado
-  const eliminarCliente = async () => {
-    const confirm = window.confirm(
-      "¿Estás seguro de que deseas eliminar este cliente?",
+  const eliminarCliente = () => {
+    const confirmar = window.confirm(
+      `¿Desea eliminar a ${cliente.name.firstname} ${cliente.name.lastname}?`,
     );
-    if (!confirm) return;
-    try {
-      const res = await fetch(`https://fakestoreapi.com/users/${id}`, {
-        method: "DELETE",
-      });
 
-      if (!res.ok) {
-        throw new Error("Error al eliminar el cliente");
-      }
+    if (!confirmar) return;
 
-      alert("Cliente eliminado correctamente");
-      navigate("/clientes");
-    } catch (error) {
-      alert("No se pudo eliminar el cliente");
-    }
+    const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+
+    const clientesActualizados = clientes.filter((c) => c.id !== cliente.id);
+
+    localStorage.setItem("clientes", JSON.stringify(clientesActualizados));
+
+    registrarActividad(
+      `Eliminó el cliente ${cliente.name.firstname} ${cliente.name.lastname}`,
+    );
+
+    alert("Cliente eliminado correctamente.");
+
+    navigate("/clientes");
   };
 
   //ESTADOS
@@ -197,16 +198,16 @@ export default function DetalleCliente() {
           </>
         )}
         {/* //CONTROL DE PERMISOS */}
-        {/* {admin?.sector === "Gerencia" && (
+        {admin?.sector === "Gerencia" && (
           <Button
             variant="contained"
             color="error"
             startIcon={<DeleteIcon />}
             onClick={eliminarCliente}
           >
-            Eliminar Cliente (SIMULADO)
+            Eliminar Cliente
           </Button>
-        )} */}
+        )}
         {admin?.sector === "Soporte" && (
           <Alert severity="info" sx={{ mt: 2 }}>
             Solo lectura

@@ -68,26 +68,6 @@ const ListaClientes = () => {
     setMensaje("Cliente creado correctamente.");
   };
 
-  const eliminarClienteLocal = (cliente) => {
-    const confirmar = window.confirm(
-      `¿Desea eliminar a ${cliente.name.firstname} ${cliente.name.lastname}?`,
-    );
-
-    if (!confirmar) return;
-
-    const clientesActualizados = clientes.filter(
-      (item) => item.id !== cliente.id,
-    );
-
-    setClientes(clientesActualizados);
-    localStorage.setItem("clientes", JSON.stringify(clientesActualizados));
-
-    registrarActividad(
-      `Eliminó el cliente ${cliente.name.firstname} ${cliente.name.lastname}`,
-    );
-
-    setMensaje("Cliente eliminado correctamente.");
-  };
   const clientesFiltrados = clientes.filter((cliente) => {
     const texto = busqueda.toLowerCase();
     return (
@@ -195,20 +175,7 @@ const ListaClientes = () => {
                       to={`/clientes/${cliente.id}`}
                     >
                       Ver
-                    </Button>
-
-                    {admin?.sector === "Gerencia" && (
-                      <Button
-                        variant="contained"
-                        color="error"
-                        fullWidth
-                        startIcon={<DeleteIcon />}
-                        onClick={() => eliminarClienteLocal(cliente)}
-                      >
-                        Eliminar
-                      </Button>
-                    )}
-                    
+                    </Button>                  
                   </CardActions>
                 </Card>
               </Grid>
