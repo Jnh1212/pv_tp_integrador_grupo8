@@ -53,7 +53,7 @@ const Dashboard = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, minHeight: "calc(100vh - 20px)" }}>
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"

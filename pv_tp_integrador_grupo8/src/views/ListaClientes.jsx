@@ -78,7 +78,7 @@ const ListaClientes = () => {
   });
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, minHeight: "calc(100vh - 10px)" }}>
       <Box
         sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 3 }}
       >
@@ -127,7 +127,12 @@ const ListaClientes = () => {
 
       {!cargando && !error && (
         <Box sx={{ maxWidth: 1200, mx: "auto" }}>
-          <Grid container spacing={2} justifyContent="center">
+          <Grid
+            container
+            spacing={2}
+            justifyContent="center"
+            alignItems="stretch"
+          >
             {clientesFiltrados.map((cliente) => (
               <Grid
                 item
@@ -136,7 +141,7 @@ const ListaClientes = () => {
                 md={4}
                 lg={3}
                 key={cliente.id}
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{ display: "flex" }}
               >
                 <Card
                   className="cliente-card"
@@ -145,15 +150,27 @@ const ListaClientes = () => {
                     width: "100%",
                     maxWidth: 300,
                     height: "100%",
+                    minHeight: 200,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                     borderRadius: 3,
                   }}
                 >
-                  <CardContent sx={{ textAlign: "center" }}>
-                    <Typography variant="h6" color="primary" gutterBottom>
+                  <CardContent sx={{ textAlign: "center", flexGrow: 1 }}>
+                    <Typography
+                      variant="h6"
+                      color="primary"
+                      gutterBottom
+                      noWrap
+                    >
                       {cliente.name.firstname} {cliente.name.lastname}
                     </Typography>
 
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                    >
                       <strong>Email:</strong> {cliente.email}
                     </Typography>
 

@@ -25,6 +25,12 @@ export default function DetalleCliente() {
   const [error, setError] = useState(null);
 
   //Fetch detalle
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   useEffect(() => {
     const getCliente = async () => {
@@ -36,7 +42,7 @@ export default function DetalleCliente() {
         // if (!res.ok) throw new Error("Error al obtener el detalle del cliente");
         // const data = await res.json();
         // setCliente(data);
-        //
+        
         // BUSCAR DETALLES DE CLIENTES EN LOCAL STORAGE
         const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
 
@@ -107,113 +113,125 @@ export default function DetalleCliente() {
   const { name, email, phone, address, username, password } = cliente;
 
   return (
-    <Card
-      className="detalle-card"
+    <Box
       sx={{
-        maxWidth: 600,
-        margin: "0 auto",
-        mt: 4,
-        p: 2,
-        backgroundColor: "#ffffff",
-        color: "#1f2937",
-        borderRadius: 3,
-        boxShadow: 3,
+        minHeight: "calc(100vh - 10px)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        pt: 4,
       }}
     >
-      <CardContent sx={{ color: "#1f2937" }}>
-        <Button
-          variant="outlined"
-          startIcon={<ArrowBackIcon />}
-          onClick={() => navigate("/clientes")}
-          sx={{ mb: 2 }}
-        >
-          Volver
-        </Button>
-        <Typography
-          variant="h5"
-          sx={{
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            textAlign: "center",
-            mb: 1,
-            color: "primary.main",
-          }}
-        >
-          <PersonIcon sx={{ verticalAlign: "middle", mr: 1 }} />
-          {name.firstname} {name.lastname}
-        </Typography>
-        <Typography sx={{ color: "#1f2937" }}>Email: {email}</Typography>
-        <Typography sx={{ color: "#1f2937" }}>Teléfono: {phone}</Typography>
-
-        <Divider sx={{ my: 2 }} />
-
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: 600,
-            color: "primary.main",
-            mb: 1,
-          }}
-        >
-          {" "}
-          Dirección:{" "}
-        </Typography>
-        <Typography sx={{ color: "#1f2937" }}>
-          Calle: {address.street}
-        </Typography>
-        <Typography sx={{ color: "#1f2937" }}>
-          Número: {address.number}
-        </Typography>
-        <Typography sx={{ color: "#1f2937" }}>
-          Ciudad: {address.city}
-        </Typography>
-        <Typography sx={{ color: "#1f2937" }}>
-          Código Postal: {address.zipcode}
-        </Typography>
-
-        <Divider sx={{ my: 2 }} />
-
-        {admin?.sector === "Gerencia" && (
-          <>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                color: "primary.main",
-                mb: 1,
-              }}
-            >
-              {" "}
-              Credenciales:{" "}
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-              <Typography sx={{ color: "#1f2937" }}>
-                Usuario: {username}
-              </Typography>
-              <Typography sx={{ color: "#1f2937" }}>
-                Contraseña: {password}
-              </Typography>
-            </Box>
-            <Divider sx={{ my: 2 }} />
-          </>
-        )}
-        {/* //CONTROL DE PERMISOS */}
-        {admin?.sector === "Gerencia" && (
+      <Card
+        className="detalle-card"
+        sx={{
+          maxWidth: 600,
+          width: "40%",
+          margin: "0 auto",
+          mt: 4,
+          p: 2,
+          backgroundColor: "#ffffff",
+          color: "#1f2937",
+          borderRadius: 3,
+          boxShadow: 3,
+        }}
+      >
+        <CardContent sx={{ color: "#1f2937" }}>
           <Button
-            variant="contained"
-            color="error"
-            startIcon={<DeleteIcon />}
-            onClick={eliminarCliente}
+            variant="outlined"
+            startIcon={<ArrowBackIcon />}
+            onClick={() => navigate("/clientes")}
+            sx={{ mb: 2.5 }}
           >
-            Eliminar Cliente
+            Volver
           </Button>
-        )}
-        {admin?.sector === "Soporte" && (
-          <Alert severity="info" sx={{ mt: 2 }}>
-            Solo lectura
-          </Alert>
-        )}
-      </CardContent>
-    </Card>
+          <Typography
+            variant="h5"
+            sx={{
+              textTransform: "uppercase",
+              fontWeight: "bold",
+              textAlign: "center",
+              mb: 1,
+              color: "primary.main",
+            }}
+          >
+            <PersonIcon sx={{ verticalAlign: "middle", mr: 1 }} />
+            {name.firstname} {name.lastname}
+          </Typography>
+          <Typography sx={{ color: "#1f2937" }}>Email: {email}</Typography>
+          <Typography sx={{ color: "#1f2937" }}>Teléfono: {phone}</Typography>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 600,
+              color: "primary.main",
+              mb: 1,
+            }}
+          >
+            {" "}
+            Dirección:{" "}
+          </Typography>
+          <Typography sx={{ color: "#1f2937" }}>
+            Calle: {address.street}
+          </Typography>
+          <Typography sx={{ color: "#1f2937" }}>
+            Número: {address.number}
+          </Typography>
+          <Typography sx={{ color: "#1f2937" }}>
+            Ciudad: {address.city}
+          </Typography>
+          <Typography sx={{ color: "#1f2937" }}>
+            Código Postal: {address.zipcode}
+          </Typography>
+
+          <Divider sx={{ my: 2 }} />
+
+          {admin?.sector === "Gerencia" && (
+            <>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 600,
+                  color: "primary.main",
+                  mb: 1,
+                }}
+              >
+                {" "}
+                Credenciales:{" "}
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+                <Typography sx={{ color: "#1f2937" }}>
+                  Usuario: {username}
+                </Typography>
+                <Typography sx={{ color: "#1f2937" }}>
+                  Contraseña: {password}
+                </Typography>
+              </Box>
+              <Divider sx={{ my: 2 }} />
+            </>
+          )}
+          {/* //CONTROL DE PERMISOS */}
+          {admin?.sector === "Gerencia" && (
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={eliminarCliente}
+              sx={{ mt: 2 }}
+            >
+              Eliminar Cliente
+            </Button>
+          )}
+          {admin?.sector === "Soporte" && (
+            <Alert severity="info" sx={{ mt: 2 }}>
+              Solo lectura
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
   );
 }
