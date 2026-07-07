@@ -131,7 +131,7 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
       const nuevoId = ultimoId + 1;
 
       localStorage.setItem("ultimoId", nuevoId);
-      
+
       const nuevoCliente = {
         id: nuevoId,
         email: formData.email,
@@ -183,6 +183,20 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
     }
   };
 
+  const cerrarConConfirmacion = () => {
+    const hayCambios = Object.values(formData).some((valor) => valor !== "");
+
+    if (hayCambios) {
+      const confirmar = window.confirm(
+        "Hay datos sin guardar. ¿Desea salir igualmente?",
+      );
+
+      if (!confirmar) return;
+    }
+
+    cerrarModal();
+  };
+  
   return (
     <Box sx={{ p: 2, maxWidth: 550 }}>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
@@ -276,7 +290,7 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
           <Button
             variant="outlined"
             startIcon={<CloseIcon />}
-            onClick={cerrarModal}
+            onClick={cerrarConConfirmacion}
           >
             Cancelar
           </Button>

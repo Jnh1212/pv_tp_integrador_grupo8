@@ -93,7 +93,11 @@ const ListaClientes = () => {
 
       <Dialog
         open={abrirModal}
-        onClose={() => setAbrirModal(false)}
+        onClose={(_, reason) => {
+          if (reason !== "backdropClick") {
+            setAbrirModal(false);
+          }
+        }}
         maxWidth="sm"
         fullWidth
       >
@@ -175,7 +179,7 @@ const ListaClientes = () => {
                       to={`/clientes/${cliente.id}`}
                     >
                       Ver
-                    </Button>                  
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
