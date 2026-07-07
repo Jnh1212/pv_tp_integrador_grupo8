@@ -57,16 +57,31 @@ const Dashboard = () => {
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
+        alignItems="center"
         sx={{ mb: 3 }}
       >
         <Box>
           <Typography variant="h4">Panel principal</Typography>
           <Typography color="text.secondary">
-            Resumen general del sistema de clientes.
+            Resumen general del sistema de clientes
           </Typography>
         </Box>
 
-        <Box component="img" src={logo} alt="Logo" sx={{ width: 90 }} />
+        <Box
+          component="img"
+          src={logo}
+          alt="Logo"
+          sx={{
+            height: 70,
+            width: "auto",
+            maxWidth: 140,
+            objectFit: "contain",
+            ml: 3,
+            display: "block",
+            alignSelf: "center",
+            mt: 0,
+          }}
+        />
       </Stack>
 
       <Box
