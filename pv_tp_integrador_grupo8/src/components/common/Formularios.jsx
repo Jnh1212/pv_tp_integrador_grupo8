@@ -127,9 +127,11 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
 
       const datos = await registrarClienteAPI(payload);
 
-      const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+      const ultimoId = Number(localStorage.getItem("ultimoId")) || 10;
+      const nuevoId = ultimoId + 1;
 
-      const nuevoId = Math.max(...clientes.map((cliente) => cliente.id), 0) + 1;
+      localStorage.setItem("ultimoId", nuevoId);
+      
       const nuevoCliente = {
         id: nuevoId,
         email: formData.email,
