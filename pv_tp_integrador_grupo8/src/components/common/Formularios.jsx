@@ -127,8 +127,11 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
 
       const datos = await registrarClienteAPI(payload);
 
+      const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+
+      const nuevoId = Math.max(...clientes.map((cliente) => cliente.id), 0) + 1;
       const nuevoCliente = {
-        id: datos.id || Date.now(),
+        id: nuevoId,
         email: formData.email,
         username: formData.username,
         password: "password123",
@@ -154,7 +157,15 @@ export const Formularios = ({ cerrarModal, agregarCliente }) => {
         mensaje: `Cliente creado con éxito. ID asignado: ${nuevoCliente.id}`,
       });
 
-      setFormData({ email: "", username: "", phone: "", city: "", street: "", number: "", zipcode: "", });
+      setFormData({
+        email: "",
+        username: "",
+        phone: "",
+        city: "",
+        street: "",
+        number: "",
+        zipcode: "",
+      });
 
       setTimeout(() => {
         cerrarModal();
