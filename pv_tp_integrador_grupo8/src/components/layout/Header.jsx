@@ -1,12 +1,14 @@
 import { AppBar, Toolbar, IconButton, Typography, Box, Avatar, Button, Menu, MenuItem } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useAdmin } from "../../context/AdminContext";
 import { useState } from "react";
 import Brightness7Icon from "@mui/icons-material/Brightness7"; // Sol
 import Brightness2Icon from "@mui/icons-material/Brightness2"; // Luna
 import { useModoAhorro } from "../../context/ModoAhorroContext";
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleIcon from "@mui/icons-material/People";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,6 +18,12 @@ const Header = () => {
   const open = Boolean(anchorEl);
 
   const handleLogout = () => {
+  const confirmar = window.confirm(
+    "¿Está seguro de que desea cerrar sesión?"
+  );
+
+  if (!confirmar) return;
+
     logout();
     navigate("/login");
   };
@@ -57,9 +65,11 @@ const Header = () => {
 
     {/* Usuario y logout */}
     {admin ? (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-
-        <Typography sx={{ color: "#bbdefb", fontSize: "0.8rem" }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Typography sx={{ color: "#fff", fontWeight: "bold" }}>
+          Hola, {admin.nombre}
+        </Typography>
+        <Typography sx={{ color: "#bbdefb", fontSize: "0.9rem", fontWeight: "bold" }}>
           ({admin.sector})
         </Typography>
         
@@ -90,7 +100,8 @@ const Header = () => {
             </Typography>
           </Box>
           <MenuItem onClick={handleLogout} sx={{ color: "#d32f2f", justifyContent: "center" }}>
-             <LogoutIcon />
+             <LogoutIcon sx={{ mr: 1 }} />
+            Cerrar Sesión
           </MenuItem>
         </Menu>
       </Box>
@@ -100,14 +111,46 @@ const Header = () => {
       </Button>
     )}
   </Toolbar>
-  <Toolbar sx={{ backgroundColor: "#283593", minHeight: "50px", display: "flex", justifyContent: "space-between" }}>
+  <Toolbar sx={{ backgroundColor: "#283593", minHeight: "50px", display: "flex" }}>
   {/* Navegación central */}
+  <Box
+  sx={{
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    gap: 2,
+  }}
+>
     <Button
-        component={Link}
+      component={NavLink}
+      to="/dashboard"
+      startIcon={<HomeIcon />}
+      sx={{
+      color: "#ffffff",
+      textTransform: "none",
+      fontWeight: "bold",
+      "&.active": {
+        backgroundColor: "#3949ab",
+      },
+      fontSize: "1rem",
+      borderRadius: "4px",
+      "&:hover": {
+      backgroundColor: "#3949ab",
+      },
+    }}
+    >
+        DASHBOARD
+    </Button>
+    <Button
+        component={NavLink}
         to="/clientes"
+        startIcon={<PeopleIcon />}
         sx={{ color: "#ffffff", 
           textTransform: "none", 
           fontWeight: "bold", 
+          "&.active": {
+          backgroundColor: "#3949ab",
+        },
           fontSize: "1rem",
           borderRadius: "4px",
           "&:hover": {
@@ -115,8 +158,9 @@ const Header = () => {
           }
          }}
     >
-        Clientes
+        CLIENTES
     </Button>
+  </Box>
     <Button onClick={toggleModoAhorro} sx={{ color: "#ffffff" }}>
       {modoAhorro ? <Brightness2Icon /> : <Brightness7Icon />}
     </Button>
