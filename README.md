@@ -35,15 +35,15 @@ pv_tp_integrador_grupo8/
     │   ├── components/
     │   │   ├── PrivateRoute.jsx
     │   │   ├── common/
-    │   │   │   ├── Filas_de_Tabla.jsx
     │   │   │   └── Formularios.jsx
     │   │   └── layout/
     │   │       ├── Footer.jsx
-    │   │       ├── Header.jsx
-    │   │       └── Nav.jsx
+    │   │       └── Header.jsx
     │
     │   ├── context/
-    │   │   └── AdminContext.jsx
+    │   │   ├── AdminContext.jsx
+    │   │   ├── AppTema.jsx
+    │   │   └── ModoAhorroContext.jsx
     │
     │   └── views/
     │       ├── Dashboard.jsx
