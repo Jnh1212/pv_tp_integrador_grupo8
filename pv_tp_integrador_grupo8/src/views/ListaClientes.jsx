@@ -16,6 +16,8 @@ import {
   Grid,
   Snackbar,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Formularios } from "../components/common/Formularios";
@@ -80,14 +82,37 @@ const ListaClientes = () => {
   return (
     <Box sx={{ p: 3, minHeight: "calc(100vh - 10px)" }}>
       <Box
-        sx={{ display: "flex", justifyContent: "space-between", gap: 2, mb: 3 }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          mb: 3,
+          gap: 2,
+        }}
       >
         <Typography variant="h4">Lista de Clientes</Typography>
 
-        {admin?.sector === "Gerencia" && (
+        <TextField
+          size="small"
+          placeholder="Buscar por nombre, apellido o ciudad"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          sx={{ width: 400 }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {admin?.sector === "Gerencia" ? (
           <Button variant="contained" onClick={() => setAbrirModal(true)}>
             Nuevo Cliente
           </Button>
+        ) : (
+          <Box sx={{ width: 140 }} />
         )}
       </Box>
 
@@ -108,14 +133,6 @@ const ListaClientes = () => {
           />
         </DialogContent>
       </Dialog>
-
-      <TextField
-        fullWidth
-        label="Buscar por nombre, apellido o ciudad"
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-        sx={{ mb: 3 }}
-      />
 
       {cargando && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
@@ -167,10 +184,7 @@ const ListaClientes = () => {
                       {cliente.name.firstname} {cliente.name.lastname}
                     </Typography>
 
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                    >
+                    <Typography variant="body2" color="text.secondary">
                       <strong>Email:</strong> {cliente.email}
                     </Typography>
 
