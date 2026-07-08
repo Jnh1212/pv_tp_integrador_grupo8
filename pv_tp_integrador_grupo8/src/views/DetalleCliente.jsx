@@ -203,10 +203,10 @@ export default function DetalleCliente() {
                 Credenciales:{" "}
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-                <Typography sx={{ color: "#1f2937" }}>
+                <Typography sx={{ color: "text.primary" }}>
                   Usuario: {username}
                 </Typography>
-                <Typography sx={{ color: "#1f2937" }}>
+                <Typography sx={{ color: "text.primary" }}>
                   Contraseña: {password}
                 </Typography>
               </Box>
