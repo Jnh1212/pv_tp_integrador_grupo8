@@ -130,8 +130,8 @@ export default function DetalleCliente() {
           margin: "0 auto",
           mt: 4,
           p: 2,
-          backgroundColor: "#ffffff",
-          color: "#1f2937",
+          backgroundColor: "background.paper",
+          color: "text.primary",
           borderRadius: 3,
           boxShadow: 3,
         }}
@@ -158,8 +158,8 @@ export default function DetalleCliente() {
             <PersonIcon sx={{ verticalAlign: "middle", mr: 1 }} />
             {name.firstname} {name.lastname}
           </Typography>
-          <Typography sx={{ color: "#1f2937" }}>Email: {email}</Typography>
-          <Typography sx={{ color: "#1f2937" }}>Teléfono: {phone}</Typography>
+          <Typography sx={{ color: "text.primary" }}>Email: {email}</Typography>
+          <Typography sx={{ color: "text.primary" }}>Teléfono: {phone}</Typography>
 
           <Divider sx={{ my: 2 }} />
 
@@ -174,16 +174,16 @@ export default function DetalleCliente() {
             {" "}
             Dirección:{" "}
           </Typography>
-          <Typography sx={{ color: "#1f2937" }}>
+          <Typography sx={{ color: "text.primary" }}>
             Calle: {address.street}
           </Typography>
-          <Typography sx={{ color: "#1f2937" }}>
+          <Typography sx={{ color: "text.primary" }}>
             Número: {address.number}
           </Typography>
-          <Typography sx={{ color: "#1f2937" }}>
+          <Typography sx={{ color: "text.primary" }}>
             Ciudad: {address.city}
           </Typography>
-          <Typography sx={{ color: "#1f2937" }}>
+          <Typography sx={{ color: "text.primary" }}>
             Código Postal: {address.zipcode}
           </Typography>
 
