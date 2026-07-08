@@ -4,6 +4,8 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import HomeIcon from "@mui/icons-material/Home";
+import PeopleIcon from "@mui/icons-material/People";
 
 const Footer = () => {
   return (
@@ -18,10 +20,10 @@ const Footer = () => {
     >
       <Container maxWidth="lg">
         {/* Grid principal con 3 columnas simétricas */}
-        <Grid container spacing={4} justifyContent="space-between" alignItems="flex-start">
+        <Grid container spacing={4} justifyContent="space-around" alignItems="flex-start">
           
           {/* Columna 1: Panel Clientes (izquierda) */}
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4} sx={{ textAlign:"left"}}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Panel Clientes
             </Typography>
@@ -37,11 +39,13 @@ const Footer = () => {
           </Grid>
 
           {/* Columna 2: Navegación (centro) */}
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4} sx={{ textAlign: "center" }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Navegación
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <HomeIcon fontSize="small"/>
               <Link
                 component={RouterLink}
                 to="/dashboard"
@@ -51,6 +55,9 @@ const Footer = () => {
               >
                 Dashboard
               </Link>
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <PeopleIcon fontSize="small"/>
               <Link
                 component={RouterLink}
                 to="/clientes"
@@ -60,7 +67,8 @@ const Footer = () => {
               >
                 Clientes
               </Link>
-              <Link
+              </Box>
+              {/* <Link
                 component={RouterLink}
                 to="/perfil"
                 color="inherit"
@@ -68,12 +76,12 @@ const Footer = () => {
                 sx={{ opacity: 0.8 }}
               >
                 Mi Perfil
-              </Link>
+              </Link> */}
             </Box>
           </Grid>
 
           {/* Columna 3: Contacto (derecha) */}
-          <Grid item xs={12} sm={3} sx={{ textAlign: "right" }}>
+          <Grid item xs={12} sm={4} sx={{ textAlign: "right" }}>
             <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Contacto
             </Typography>
@@ -94,7 +102,7 @@ const Footer = () => {
             <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end", mt: 1 }}>
               <IconButton
                 component="a"
-                href="https://github.com"
+                href="https://github.com/Jnh1212/pv_tp_integrador_grupo8"
                 target="_blank"
                 sx={{ color: "#ffffff", "&:hover": { color: "#90caf9" } }}
               >
@@ -130,7 +138,7 @@ const Footer = () => {
           }}
         >
           <Typography variant="body2">
-            © {new Date().getFullYear()} PV - Todos los derechos reservados
+            © Grupo 8 {new Date().getFullYear()} PV - Todos los derechos reservados
           </Typography>
           <Typography variant="body2">Versión 1.0.0</Typography>
         </Box>
