@@ -25,7 +25,7 @@ const Header = () => {
   if (!confirmar) return;
 
     logout();
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   const handleMenu = (event) => {

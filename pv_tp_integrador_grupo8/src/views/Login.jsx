@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AdminContext } from "../context/AdminContext";
 
 const Login = () => {
-  const { login } = useContext(AdminContext);
+  const { login, admin } = useContext(AdminContext);
   const navigate = useNavigate();
   const [nombre, setNombre] = useState("");
   const [sector, setSector] = useState("Soporte");
@@ -11,8 +11,13 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     login(nombre, sector);
-    navigate("/dashboard");
+    navigate("/dashboard", { replace: true });
   };
+  //   useEffect(() => {
+  //   if (admin) {
+  //     navigate("/dashboard", { replace: true });
+  //   }
+  // }, [admin, navigate]);
   return (
     <div
       className="login-page"
