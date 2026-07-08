@@ -13,11 +13,11 @@ const Login = () => {
     login(nombre, sector);
     navigate("/dashboard", { replace: true });
   };
-  //   useEffect(() => {
-  //   if (admin) {
-  //     navigate("/dashboard", { replace: true });
-  //   }
-  // }, [admin, navigate]);
+    useEffect(() => {
+    if (admin) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [admin, navigate]);
   return (
     <div
       className="login-page"
