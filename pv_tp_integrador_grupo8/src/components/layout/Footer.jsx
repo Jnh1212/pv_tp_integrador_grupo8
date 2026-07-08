@@ -1,4 +1,11 @@
-import { Box, Container, Grid, Typography, Link, IconButton, Divider } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Link,
+  IconButton,
+  Divider,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -19,11 +26,23 @@ const Footer = () => {
       }}
     >
       <Container maxWidth="lg">
-        {/* Grid principal con 3 columnas simétricas */}
-        <Grid container spacing={4} justifyContent="space-around" alignItems="flex-start">
-          
-          {/* Columna 1: Panel Clientes (izquierda) */}
-          <Grid item xs={12} sm={4} sx={{ textAlign:"left"}}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            gap: 4,
+          }}
+        >
+          {/* Panel Clientes (izquierda) */}
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 250,
+              textAlign: "left",
+            }}
+          >
             <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Panel Clientes
             </Typography>
@@ -36,37 +55,50 @@ const Footer = () => {
             <Typography variant="body2" sx={{ opacity: 0.6 }}>
               Jujuy, Argentina
             </Typography>
-          </Grid>
+          </Box>
 
-          {/* Columna 2: Navegación (centro) */}
-          <Grid item xs={12} sm={4} sx={{ textAlign: "center" }}>
+          {/* Navegación (centro) */}
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 250,
+              textAlign: "center",
+            }}
+          >
             <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Navegación
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <HomeIcon fontSize="small"/>
-              <Link
-                component={RouterLink}
-                to="/dashboard"
-                color="inherit"
-                underline="hover"
-                sx={{ opacity: 0.8 }}
-              >
-                Dashboard
-              </Link>
+                <HomeIcon fontSize="small" />
+                <Link
+                  component={RouterLink}
+                  to="/dashboard"
+                  color="inherit"
+                  underline="hover"
+                  sx={{ opacity: 0.8 }}
+                >
+                  Dashboard
+                </Link>
               </Box>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <PeopleIcon fontSize="small"/>
-              <Link
-                component={RouterLink}
-                to="/clientes"
-                color="inherit"
-                underline="hover"
-                sx={{ opacity: 0.8 }}
-              >
-                Clientes
-              </Link>
+                <PeopleIcon fontSize="small" />
+                <Link
+                  component={RouterLink}
+                  to="/clientes"
+                  color="inherit"
+                  underline="hover"
+                  sx={{ opacity: 0.8 }}
+                >
+                  Clientes
+                </Link>
               </Box>
               {/* <Link
                 component={RouterLink}
@@ -78,14 +110,27 @@ const Footer = () => {
                 Mi Perfil
               </Link> */}
             </Box>
-          </Grid>
+          </Box>
 
-          {/* Columna 3: Contacto (derecha) */}
-          <Grid item xs={12} sm={4} sx={{ textAlign: "right" }}>
+          {/* Contacto (derecha) */}
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 250,
+              textAlign: "right",
+            }}
+          >
             <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
               Contacto
             </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5, alignItems: "flex-end" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 0.5,
+                alignItems: "flex-end",
+              }}
+            >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <EmailIcon sx={{ fontSize: 20, opacity: 0.8 }} />
                 <Typography variant="body2" sx={{ opacity: 0.8 }}>
@@ -99,7 +144,14 @@ const Footer = () => {
                 </Typography>
               </Box>
             </Box>
-            <Box sx={{ display: "flex", gap: 1, justifyContent: "flex-end", mt: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 1,
+                justifyContent: "flex-end",
+                mt: 1,
+              }}
+            >
               <IconButton
                 component="a"
                 href="https://github.com/Jnh1212/pv_tp_integrador_grupo8"
@@ -124,8 +176,8 @@ const Footer = () => {
                 <EmailIcon />
               </IconButton>
             </Box>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
 
         <Divider sx={{ backgroundColor: "rgba(255,255,255,0.2)", my: 3 }} />
 
@@ -138,7 +190,8 @@ const Footer = () => {
           }}
         >
           <Typography variant="body2">
-            © Grupo 8 {new Date().getFullYear()} PV - Todos los derechos reservados
+            © Grupo 8 {new Date().getFullYear()} PV - Todos los derechos
+            reservados
           </Typography>
           <Typography variant="body2">Versión 1.0.0</Typography>
         </Box>
